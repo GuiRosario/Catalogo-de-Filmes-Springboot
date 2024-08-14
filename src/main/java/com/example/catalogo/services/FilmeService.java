@@ -5,10 +5,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import jakarta.*;
+import lombok.extern.slf4j.Slf4j;
+
 import com.example.catalogo.entities.Filme;
 import com.example.catalogo.repositories.CatalogoRepository;
 
+@Slf4j
+@Service
 public class FilmeService {
     @Autowired
     private CatalogoRepository repository;

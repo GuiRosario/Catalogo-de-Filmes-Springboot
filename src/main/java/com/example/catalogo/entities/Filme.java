@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 public class Filme implements Serializable{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
     private String titulo;

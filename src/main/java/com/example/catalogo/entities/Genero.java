@@ -14,11 +14,11 @@ import jakarta.persistence.*;
 
 public class Genero {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
     private String nome;
 
-    @OneToMany
+    @OneToMany(mappedBy = "genero")
     List<Filme> filmes;
 }
