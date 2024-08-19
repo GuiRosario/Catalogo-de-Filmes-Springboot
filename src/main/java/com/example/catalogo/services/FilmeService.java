@@ -11,24 +11,29 @@ import jakarta.*;
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.catalogo.entities.Filme;
+import com.example.catalogo.entities.Genero;
 import com.example.catalogo.repositories.CatalogoRepository;
+import com.example.catalogo.repositories.GeneroRepository;
 
 @Slf4j
 @Service
 public class FilmeService {
     @Autowired
     private CatalogoRepository repository;
+    private GeneroRepository generoRepository;
 
     public Filme salvar(Filme filme){
-        filme = repository.save(filme);
-        return filme;
+        return repository.save(filme);
     }
 
     public Filme alterar(Filme filme){
-        if(Objects.nonNull(filme.getId())){
+        Optional <Filme> optionalFilme = consultarPorId(filme.getId());
+        if(optionalFilme.isPresent()){
+            System.out.println("ID FILME" + consultarPorId(filme.getId()));
             filme = repository.save(filme);
         }else{
             System.out.println("Filme nao encontrado!");
+            throw new IllegalArgumentException("Filme not found");
         }
         return filme;
     }
@@ -37,14 +42,14 @@ public class FilmeService {
         return repository.findAll();
     }
 
-    public Boolean excluir(Integer id){
-        try{
+    public void excluir(Integer id){
+        Optional <Filme> optionalFilme = consultarPorId(id);
+        if(optionalFilme.isPresent()){
             repository.deleteById(id);
-        } catch (Exception e){
-            System.out.printf("Erro ao realizar Exclusao ",e);
-            return false;
+        }else{
+            System.out.println("Erro ao realizar Exclusao");
+            throw new IllegalArgumentException("Filme not found");
         }
-        return true;
     }
 
     public Optional<Filme> consultarPorId(Integer id){

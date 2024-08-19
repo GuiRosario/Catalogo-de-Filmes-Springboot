@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Getter
 @Setter
 @Entity
@@ -22,5 +24,6 @@ public class Filme implements Serializable{
     private String sinopse;
 
     @ManyToOne
+    @JsonBackReference
     private Genero genero;
 }
