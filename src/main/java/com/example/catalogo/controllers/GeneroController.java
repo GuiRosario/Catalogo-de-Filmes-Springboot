@@ -1,5 +1,6 @@
 package com.example.catalogo.controllers;
 
+import java.security.CodeSigner;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,32 @@ public class GeneroController {
     public ResponseEntity<?> filmesPorGenero(@PathVariable Integer id){
         List<Filme> filmes = generoService.filmesPorGenero(id);
         return ResponseEntity.ok(filmes);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> atualizarGenero(@RequestBody Genero genero){
+        try {
+            Genero generoAtualizado = generoService.updateGenero(genero);
+            return ResponseEntity.ok(generoAtualizado);
+        }catch (IllegalArgumentException e) {
+            System.out.println("Erro 409:" + e.getMessage());
+            return ResponseEntity.badRequest().body("Genero não encontrado.");
+        } catch (Exception e) {
+            System.out.println("Erro 500:" + e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro interno no servidor.");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarGenero(@PathVariable Integer id){
+        try{
+            generoService.deleteGenero(id);
+            return ResponseEntity.ok("Genero deletado com sucesso.");
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Genero nao encontrado.");
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Erro interno no servidor.");
+        }
     }
     
 }

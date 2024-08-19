@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.*;
 import lombok.extern.slf4j.Slf4j;
 
 import com.example.catalogo.entities.Genero;
@@ -48,6 +47,25 @@ public class GeneroService {
             return genero.getFilmes();
         }else{
             return new ArrayList<>();
+        }
+    }
+
+    public Genero updateGenero(Genero genero) {
+        Optional<Genero> generoOptional = findById(genero.getId());
+        if(generoOptional.isPresent()){
+            genero = generoRepository.save(genero);
+        }else{
+            throw new IllegalArgumentException("Genero not found");
+        }
+        return genero;
+    }
+
+    public void deleteGenero(Integer id) {
+        Optional<Genero> generoOptional = findById(id);
+        if(generoOptional.isPresent()){
+            generoRepository.deleteById(id);
+        }else{
+            throw new IllegalArgumentException("Genero not found");
         }
     }
 }
